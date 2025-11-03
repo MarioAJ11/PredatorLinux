@@ -48,8 +48,12 @@ function createWindow() {
   });
 
   // Cargar la aplicación
-  if (process.env.NODE_ENV === 'development') {
-    mainWindow.loadURL('http://localhost:5173');
+  const isDev = process.argv.includes('--dev') || !app.isPackaged;
+  
+  if (isDev) {
+    mainWindow.loadURL('http://localhost:5173').catch(() => {
+      console.error('[Main] No se pudo conectar a Vite. Asegúrate de que el servidor esté corriendo.');
+    });
     mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadFile(path.join(__dirname, '../../dist/index.html'));
