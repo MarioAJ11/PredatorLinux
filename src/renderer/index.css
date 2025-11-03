@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-predator-dark text-white font-sans antialiased;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 bg-predator-blue text-predator-dark font-bold rounded-lg 
+           hover:bg-blue-400 active:bg-blue-500 transition-all duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 bg-predator-gray text-white font-bold rounded-lg 
+           hover:bg-predator-gray-light active:bg-gray-600 transition-all duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-danger {
+    @apply px-6 py-3 bg-predator-red text-white font-bold rounded-lg 
+           hover:bg-red-600 active:bg-red-700 transition-all duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .card {
+    @apply bg-predator-gray rounded-xl p-6 shadow-2xl border border-gray-700/50;
+  }
+  
+  .stat-card {
+    @apply card flex flex-col items-center justify-center space-y-2
+           hover:border-predator-blue/30 transition-colors duration-300;
+  }
+
+  .input-range {
+    @apply w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer 
+           disabled:opacity-50 disabled:cursor-not-allowed
+           [&::-webkit-slider-thumb]:appearance-none 
+           [&::-webkit-slider-thumb]:w-4 
+           [&::-webkit-slider-thumb]:h-4 
+           [&::-webkit-slider-thumb]:rounded-full 
+           [&::-webkit-slider-thumb]:bg-predator-blue
+           [&::-webkit-slider-thumb]:cursor-pointer
+           [&::-moz-range-thumb]:w-4 
+           [&::-moz-range-thumb]:h-4 
+           [&::-moz-range-thumb]:rounded-full 
+           [&::-moz-range-thumb]:bg-predator-blue
+           [&::-moz-range-thumb]:border-0
+           [&::-moz-range-thumb]:cursor-pointer;
+  }
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-predator-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-predator-gray rounded-lg;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-predator-gray-light;
+}
