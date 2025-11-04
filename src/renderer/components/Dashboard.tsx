@@ -1,5 +1,8 @@
 import React from 'react';
 import { useAppSelector } from '../store/hooks';
+import ProfileSwitcher from './ProfileSwitcher';
+import FanControl from './FanControl';
+import RgbEditor from './RgbEditor';
 
 const Dashboard: React.FC = () => {
   const stats = useAppSelector((state) => state.stats.current);
@@ -20,16 +23,12 @@ const Dashboard: React.FC = () => {
 
         {/* Guardian Warning */}
         {guardianWarning && (
-          <div className={`p-4 rounded-lg mb-6 ${
-            guardianWarning.level === 'critical' 
-              ? 'bg-red-900 border-2 border-red-500' 
-              : 'bg-yellow-900 border-2 border-yellow-500'
-          }`}>
+          <div className="p-4 rounded-lg mb-6 bg-red-900 border-2 border-red-500">
             <div className="flex items-center">
               <span className="text-2xl mr-3">🛡️</span>
               <div>
-                <h3 className="font-bold">Guardian: {guardianWarning.message}</h3>
-                <p className="text-sm opacity-75">{guardianWarning.details}</p>
+                <h3 className="font-bold">Guardian de Seguridad</h3>
+                <p className="text-sm opacity-75">{guardianWarning}</p>
               </div>
             </div>
           </div>
@@ -87,48 +86,45 @@ const Dashboard: React.FC = () => {
           <div className="card">
             <h2 className="text-xl font-bold mb-4 flex items-center">
               <span className="mr-2">🌀</span>
-              CPU Fan
+              Ventilador CPU
             </h2>
             <div className="text-2xl font-bold text-blue-400">
-              {stats?.cpuFanSpeed ? `${stats.cpuFanSpeed} RPM` : 'N/A'}
+              {stats?.fan1Rpm ? `${stats.fan1Rpm} RPM` : 'Sin lectura'}
             </div>
           </div>
 
           <div className="card">
             <h2 className="text-xl font-bold mb-4 flex items-center">
               <span className="mr-2">🌀</span>
-              GPU Fan
+              Ventilador GPU
             </h2>
             <div className="text-2xl font-bold text-green-400">
-              {stats?.gpuFanSpeed ? `${stats.gpuFanSpeed} RPM` : 'N/A'}
+              {stats?.fan2Rpm ? `${stats.fan2Rpm} RPM` : 'Sin lectura'}
             </div>
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="card">
-          <h2 className="text-xl font-bold mb-4">Acciones Rápidas</h2>
-          <div className="flex gap-4">
-            <button className="btn-primary">
-              🎯 Quiet
-            </button>
-            <button className="btn-primary">
-              ⚡ Balanced
-            </button>
-            <button className="btn-primary">
-              🚀 Performance
-            </button>
-          </div>
+        {/* Profile Switcher */}
+        <div className="mb-8">
+          <ProfileSwitcher />
+        </div>
+
+        {/* Fan Control & RGB in Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <FanControl />
+          <RgbEditor />
         </div>
 
         {/* Status Info */}
         <div className="mt-8 text-center text-gray-500 text-sm">
           <p>
-            {stats ? '✅ Servicios activos' : '⚠️ Esperando datos...'}
+            {stats ? '✅ Monitoreo activo' : '⚠️ Esperando datos del sistema...'}
           </p>
-          <p className="mt-2">
-            Para funcionalidad completa, instala: <code className="bg-gray-800 px-2 py-1 rounded">sudo apt install lm-sensors</code>
-          </p>
+          {stats && stats.cpuTemp === 0 && (
+            <p className="mt-2 text-yellow-500">
+              ⚠️ Temperaturas en 0: Verifica que lm-sensors esté configurado correctamente
+            </p>
+          )}
         </div>
       </div>
     </div>

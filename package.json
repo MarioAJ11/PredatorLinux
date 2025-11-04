@@ -52,11 +52,26 @@
     },
     "files": [
       "dist/**/*",
-      "dist-electron/**/*"
+      "dist-electron/**/*",
+      "index.html",
+      "package.json"
     ],
     "linux": {
-      "target": ["AppImage", "deb"],
-      "category": "System"
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        }
+      ],
+      "category": "System",
+      "icon": "assets/icon.png",
+      "maintainer": "PredatorLinux Team",
+      "synopsis": "Control hardware para portátiles Acer Predator en Linux",
+      "description": "Aplicación de control completo para hardware de portátiles Acer Predator: ventiladores, perfiles de rendimiento, RGB y monitoreo del sistema."
     }
   }
 }

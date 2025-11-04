@@ -67,31 +67,40 @@ export class StatsService {
       const { stdout } = await execAsync('sensors -j');
       const data = JSON.parse(stdout);
 
-      // TODO: Parsear la estructura real de tu sistema
-      // Esto es un ejemplo genérico
       let cpuTemp = 0;
       let systemTemp = 0;
       let fan1Rpm = 0;
       let fan2Rpm = 0;
 
-      // Buscar temperaturas de CPU
-      for (const adapter in data) {
-        const adapterData = data[adapter];
-        
-        // Buscar Core 0 o Package id 0 para CPU temp
-        if (adapterData['Package id 0']) {
-          cpuTemp = adapterData['Package id 0']['temp1_input'] || 0;
-        } else if (adapterData['Core 0']) {
-          cpuTemp = adapterData['Core 0']['temp2_input'] || 0;
+      // Parsear coretemp para temperatura de CPU (Acer Predator)
+      if (data['coretemp-isa-0000']) {
+        const coretemp = data['coretemp-isa-0000'];
+        if (coretemp['Package id 0']) {
+          cpuTemp = coretemp['Package id 0'].temp1_input || 0;
         }
+      }
 
-        // Buscar ventiladores
-        if (adapterData['fan1']) {
-          fan1Rpm = adapterData['fan1']['fan1_input'] || 0;
+      // Parsear acpitz para temperatura del sistema
+      if (data['acpitz-acpi-0']) {
+        const acpitz = data['acpitz-acpi-0'];
+        if (acpitz.temp1) {
+          systemTemp = acpitz.temp1.temp1_input || 0;
         }
-        if (adapterData['fan2']) {
-          fan2Rpm = adapterData['fan2']['fan2_input'] || 0;
-        }
+      }
+
+      // Intentar leer velocidad de ventiladores desde hwmon
+      try {
+        const fan1Data = await execAsync('cat /sys/class/hwmon/hwmon*/fan1_input 2>/dev/null || echo 0');
+        fan1Rpm = parseInt(fan1Data.stdout.trim()) || 0;
+      } catch {
+        fan1Rpm = 0;
+      }
+
+      try {
+        const fan2Data = await execAsync('cat /sys/class/hwmon/hwmon*/fan2_input 2>/dev/null || echo 0');
+        fan2Rpm = parseInt(fan2Data.stdout.trim()) || 0;
+      } catch {
+        fan2Rpm = 0;
       }
 
       // Obtener uso de CPU
