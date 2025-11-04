@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=PredatorLinux Control Center
+Comment=Control de hardware Acer Predator
+Exec=/home/mario/Documentos/Proyectos/PredatorLinux/predatorlinux-launcher.sh
+Icon=/home/mario/Documentos/Proyectos/PredatorLinux/assets/icon.png
+Terminal=false
+Categories=System;Settings;HardwareSettings;
+Keywords=predator;acer;hardware;fan;rgb;performance;gaming;
+StartupNotify=true
+StartupWMClass=PredatorLinux

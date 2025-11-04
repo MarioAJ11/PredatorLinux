@@ -106,6 +106,20 @@ sudo dpkg -i release/predatorlinux_1.0.0_amd64.deb
 
 ---
 
+## ⌨️ Lanzar con Tecla Predator
+
+✅ **Ya configurado:** Presiona `Super + P` para abrir la aplicación
+
+🔥 **Tecla Predator física:** Ver [KEYBINDING.md](KEYBINDING.md) para configurar la tecla turbo
+
+```bash
+# Detectar keycode de tu tecla Predator
+xbindkeys -k
+# Presiona la tecla y sigue instrucciones en KEYBINDING.md
+```
+
+---
+
 ## 🎮 Uso
 
 ### Cambiar Perfil
